@@ -1,0 +1,97 @@
+.banner {
+    background-color: #003E87;
+    border-radius: 10px;
+}
+
+.left {
+    border: solid 1px;
+    border-color: #003E87;
+    border-radius: 10px;
+    width: 280px;
+
+}
+
+.main {
+    border: solid 1px;
+    border-radius: 10px;
+    width: 100%;
+    border-color: #003E87;
+    margin-left: 10px;
+}
+
+
+.bookdir {
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    border-radius: 10px 10px 0 0;
+    background-color: #003E87;
+    color: white;
+}
+
+#search{
+    color: #003E87;
+    background-color: white;
+    border: solid 1px;
+    border-color: aqua;
+    width: 70px;
+    height: 25px;
+}
+
+#search-input{
+    height: 25px;
+    width: calc(100% - 300px);
+    margin-right: 200px;
+}
+
+.main-top {
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    border-radius: 10px 10px 0 0;
+    background-color: #003E87;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.left li {
+    width: 80%;
+    height: 34px;
+    border-right: 2px solid #F6F6F6;
+    border-right-style: groove;
+    border-radius: 8px 0 0 8px;
+    background-color: #003E87;
+    margin-top: 20px;
+    list-style: none;
+    text-align: center;
+    font: 18px;
+    font-family: 20 微软雅黑;
+    line-height: 34px;
+    color: white;
+}
+
+.main-bottom{
+    height: 100%;
+}
+
+.list{
+    border-collapse: collapse;
+    text-align: center;
+    margin:20px auto;
+    width: 90%;
+}
+
+.footer{
+    border:solid 1px;
+    border-color: #003E87;
+    border-radius: 10px;
+    margin-top: 10px;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    color: gray;
+}
