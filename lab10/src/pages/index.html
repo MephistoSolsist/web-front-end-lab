@@ -1,0 +1,213 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>lab9</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <script type="text/javascript" src="../main.js"></script>
+    <script src="../vue.global.js"></script>
+    <title>Document</title>
+</head>
+
+<body id="app">
+    <div id="editbook">
+        <div id="editUI">
+            <h3 align="center">修改图书</h3>
+            <form>
+                <table align="center">
+                    <tr>
+                        <td>书号：</td>
+                        <td><input type="text" readonly="readonly" id="bookid" style="background: #d4dedf"></td>
+                    </tr>
+                    <tr>
+                        <td>书名：</td>
+                        <td><input type="text" id="bookName" /></td>
+                    </tr>
+                    <tr>
+                        <td>价格：</td>
+                        <td><input type="text" id="bookprice" /></td>
+                    </tr>
+                    <tr>
+                        <td>库存：</td>
+                        <td><input type="text" id="booknum" /></td>
+                    </tr>
+                    <tr>
+                        <td>类型：</td>
+                        <td>
+                            <select id="booktype">
+                                <option value="1">计算机类</option>
+                                <option value="2">文学类</option>
+                                <option value="3">数学类</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>图片：<img src="1.jpg" style="width: 120px; height: 100px" /></td>
+                    </tr>
+                </table>
+                <div align="center" style="margin-top: 20px">
+                    <input type="reset" value="重置" />
+                    <input type="button" onclick="editbook()" value="提交" />
+                    <input type="button" onclick="returnMain()" value="返回" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="addbook">
+        <div id="addUI">
+            <h3 align="center">新增图书</h3>
+            <form>
+                <table align="center">
+                    <tr>
+                        <td>书号：</td>
+                        <td><input type="text" id="newId" style="background: #d4dedf"></td>
+                    </tr>
+                    <tr>
+                        <td>书名：</td>
+                        <td><input type="text" id="newName" /></td>
+                    </tr>
+                    <tr>
+                        <td>价格：</td>
+                        <td><input type="text" id="newPrice" /></td>
+                    </tr>
+                    <tr>
+                        <td>库存：</td>
+                        <td><input type="text" id="newNum" /></td>
+                    </tr>
+                    <tr>
+                        <td>类型：</td>
+                        <td>
+                            <select id="newType">
+                                <option value="1">计算机类</option>
+                                <option value="2">文学类</option>
+                                <option value="3">数学类</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>图片：<img src="1.jpg" style="width: 120px; height: 100px" /></td>
+                    </tr>
+                </table>
+                <div align="center" style="margin-top: 20px">
+                    <input type="reset" value="重置" />
+                    <input type="button" onclick="add()" value="提交" />
+                    <input type="button" onclick="returnMain()" value="返回" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <div class="banner" align="center">
+            <img height=200px src="../img/banner.jpg">
+            <div style="position: absolute;right: 50px;top: 180px;font:bold;font-size: 16px;">
+                <a href="" style="margin-right:10px;color:white">注册</a>
+                <a style="color:white;" href="">登陆</a>
+            </div>
+            <div style="position: absolute;right: 100px;top: 20px;font:bold;font-size: 16px;">
+                <a href="" style="margin-right:10px;color:white">退出系统</a>
+                <a href="" style="margin-right:10px;color:white">页面管理</a>
+                <a style="color:white;" href="">风格管理</a>
+            </div>
+        </div>
+        <div style="display:flex;margin-top: 10px;justify-content: space-between;height:100%">
+            <div class="left">
+                <div class="bookdir">图书目录</div>
+                <div style="padding-top:1px;">
+                    <ul>
+                        <li id="all" onmouseout="this.style.fontWeight='normal'"
+                            onmouseover="this.style.fontWeight='bold'">
+                            <a>全部</a>
+                        </li>
+                        <li id="computer" onmouseout="this.style.fontWeight='normal'"
+                            onmouseover="this.style.fontWeight='bold'">
+                            <a>计算机类</a>
+                        </li>
+                        <li id="literature" onmouseout="this.style.fontWeight='normal'"
+                            onmouseover="this.style.fontWeight='bold'">
+                            <a>文学类</a>
+                        </li>
+                        <li id="math" onmouseout="this.style.fontWeight='normal'"
+                            onmouseover="this.style.fontWeight='bold'">
+                            <a>数学类</a>
+                        </li>
+                        <li id="policy" onmouseout="this.style.fontWeight='normal'"
+                            onmouseover="this.style.fontWeight='bold'">
+                            <a>政治类</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="main">
+                <div class="main-top">
+                    <div style="width: 80%;">
+                        <a>查找书籍</a>
+                        <input id="search-input" oninput="findBook(this.value)" type="text" placeholder="请输入书名">
+                    </div>
+                    <div>
+                        <input id="search" onclick="addUI()" type="button" value="新书录入">
+                    </div>
+                </div>
+
+                <div class="main-bottom" id="book-list">
+                    <table id="table" border="1px" class="list">
+                        <tr style="background-color:#003E87;color:white;" height="34px">
+                            <th style="width:200px;">
+                                书名
+                            </th>
+                            <th style="width:100px;">
+                                价格
+                            </th>
+                            <th style="width:100px;">
+                                数量
+                            </th>
+                            <th style="width:180px;">
+                                操作
+                            </th>
+                        </tr>
+                        <tr v-for="book in bookList">
+                            <td>{{ book.bookName }}</td>
+                            <td>{{ book.price }}</td>
+                            <td>{{ book.num }}</td>
+                            <td><input type=button onclick=del(this,book.id) value=删除>
+                                <input type=button onclick=editUI(book.id) value=编辑>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="page">
+                        <div>
+                            第<input id="go" type="number" style="width: 25px;height: 18px;" />页
+                            <button onclick="go()">go</button>
+                        </div>
+                        <div>
+                            <button onclick="previous()">上一页</button>
+                            <button onclick="next()">下一页</button>
+                        </div>
+                        <div>
+                            每页显示<input type="number" id="number" style="width: 25px;height: 18px;" />条记录
+                            <button onclick="setPageSize()">设定</button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    const App = {
+                        data() {
+                            return {
+                                bookList: bookList
+                            }
+                        }
+                    }
+                    Vue.createApp(App).mount('#book-list')
+                </script>
+            </div>
+        </div>
+        <div class="footer">
+            footer
+        </div>
+    </div>
+</body>
+
+</html>
