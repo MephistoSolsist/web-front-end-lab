@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <script src="vue.global.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <h1>这是一个组件的引用案例</h1>
+        <mycom1></mycom1>
+        <mycom1></mycom1>
+        <mycom1></mycom1>
+    </div>
+    <template id='temp1'><!-- template标签内容，不会生成DOM树内容而渲染在浏览器中-->
+		<!--<div>-->
+			<h1>这是个计数器组件</h1>
+			<button v-on:click="count++">You clicked me {{ count }} times.</button>
+		<!--</div>-->
+		
+	</template>
+    <script type="text/javascript">
+        //data={count:0};
+        app = Vue.createApp({});
+        app.component('mycom1', {
+            data: function() { //相当于：data:{count:0},但组件中，data必须是函数形式
+                return {
+                    count: 0
+                }
+            },
+            template: '#temp1'
+        });
+
+
+        app.mount("#app");
+    </script>
+</body>
+
+</html>

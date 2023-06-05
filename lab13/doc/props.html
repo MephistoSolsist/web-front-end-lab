@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>学生个人信息查询系统</title>
+    <script src="vue.global.js"></script>
+</head>
+
+<body>
+    <!--以下mainapp-->
+    <div id="app">
+        <h2>个人信息查询系统</h2>
+        <div>
+            请输入学号：<input type="text" v-model.lazy="id" />
+            <button @click='checkID'>检查</button>
+            <span>{{mess}}</span>
+            <div>
+                <button @click='flag1=true;flag2=flag3=false'>基本信息</button>
+                <button @click='flag2=true;flag1=flag3=false'>荣誉记录</button>
+                <button @click='flag3=true;flag1=flag2=false'>成绩列表</button>
+            </div>
+        </div>
+        <mycom1 v-show='flag1' v-bind:number='id'></mycom1>
+        <mycom2 v-show='flag2' :number='id'></mycom2>
+        <mycom3 v-show='flag3' :number='id'></mycom3>
+    </div>
+    <script type="text/javascript">
+        const app = Vue.createApp({
+            data() {
+                return {
+                    id: '',
+                    mess: '',
+                    flag1: false,
+                    flag2: false,
+                    flag3: false
+                }
+            },
+            methods: {
+                checkID() {
+                    if (this.id == '123456' || this.id == '123')
+                        this.mess = '';
+                    else {
+                        this.mess = '查无此人';
+                    }
+                },
+            }
+        });
+    </script>
+    <!--定义三个子组件-->
+    <!--以下定义第1个子组件-->
+    <template id="basic">
+		<div>
+		<h3>个人基本信息</h3>
+		姓名：<label>{{name}}</label><br>
+		姓别：<label>{{sex}}</label><br>
+		学号：<label>{{number}}</label><br><!--number是父组件传过来的值-->
+		电话：<label>{{tell}}</label><br>
+		</div>
+	</template>
+    <script>
+        //app1 = Vue.createApp({});
+        app.component('mycom1', {
+            data: function() { //组件中，data必须是函数形式
+                return {
+                    name: '',
+                    sex: '',
+                    id: this.number,
+                    tell: ''
+                };
+            },
+            template: '#basic',
+            props: {
+                number: String
+            }, //子组件定义属性，接受父组件的数据.等同于data中数据
+            created: function() {},
+            watch: {
+                number: function(val) {
+                    if (val === '123') {
+                        this.name = "张三";
+                        this.sex = '男';
+                        this.tell = '123679789';
+                    } else if (val === '123456') {
+                        this.name = "李四";
+                        this.sex = '女';
+                        this.tell = '123674444';
+                    } else {
+                        this.name = "";
+                        this.sex = '';
+                        this.tell = '';
+                        this.id = '';
+                        //this.id=''无效，是因为从父组件传过来的值，子组件是不能修改的。
+                    }
+                }
+            }
+        });
+    </script>
+    <!--以下是第2个组件-->
+    <template id="honor">
+		<div>
+			<h3>个人荣誉记录</h3>
+			<p v-for="item in recoder">{{item}}</p>
+		</div>
+	</template>
+    <script>
+        //app1 = Vue.createApp({});
+        app.component('mycom2', {
+            data: function() { //组件中，data必须是函数形式
+                return {
+                    recoder: []
+                }; //荣誉记录是数据形式。
+            },
+            template: '#honor',
+            created: function() {},
+            props: ['number'],
+            watch: {
+                number: function(val) {
+                    if (val == '123')
+                        this.recoder = ['2019/08,获奖一次', '2020/03,得第一名'];
+                    else if (val == '123456')
+                        this.recoder = ['2019/07,获奖二次', '2020/03,得第三名'];
+                    else this.recoder = [];
+                }
+            }
+        });
+    </script>
+    <!--以下是第3个组件-->
+    <template id="course">
+		<div>
+			<h3>课程成绩表</h3>
+			课程1：{{course1}}<br>课程2：{{course2}}<br>
+		</div>
+	</template>
+    <script type="text/javascript">
+        // app1 = Vue.createApp({});
+        app.component('mycom3', {
+            data: function() { //组件中，data必须是函数形式
+                return {
+                    course1: 0,
+                    course2: 0
+                };
+            },
+            template: '#course',
+            created: function() {},
+            props: ['number'],
+            watch: {
+                number: function(val) {
+                    if (val == '123') {
+                        this.course1 = 88;
+                        this.course2 = 98;
+                    } else if (val == '123456') {
+                        this.course1 = 68;
+                        this.course2 = 78;
+                    } else {
+                        this.course1 = 0;
+                        this.course2 = 0;
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        app.mount("#app");
+    </script>
+
+</body>
+
+</html>

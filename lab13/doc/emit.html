@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <script src="vue.global.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <h1>这是父组件</h1>
+        <mycom1 @sonevent="changeVal"></mycom1>
+        <p>父组件引用子组件数据：{{booktype}}</p>
+    </div>
+    <script type="text/javascript">
+        const app = Vue.createApp({
+            data() {
+                return {
+                    booktype: ''
+                }
+            }, //父组件中，初始值为空
+            methods: {
+                changeVal: function(val) {
+                    this.booktype = val;
+                }
+            }
+        });
+    </script>
+    <template id='temp1'><!-- template标签内容，不会生成DOM树内容而渲染在浏览器中-->
+		<div>
+			<h3>子组件图书类型选择</h3>
+			<select @change="getCity()" v-model="booktype" >
+				<option value='军事' >军事</option>
+				<option value='文学' >文学</option>
+				<option value='历史' >历史</option>
+				<option value='科技' >科技</option>
+				<option value='艺术' >艺术</option>
+			</select>
+		</div>
+	</template>
+    <script type="text/javascript">
+        app.component('mycom1', {
+            data: function() { //相当于：booktype: '',但组件中，data必须是函数形式
+                return {
+                    booktype: ''
+                };
+            },
+            template: '#temp1',
+            methods: {
+                getCity() {
+                    this.$emit('sonevent', this.booktype);
+                }
+            }
+        });
+    </script>
+    <script>
+        app.mount("#app");
+    </script>
+</body>
+
+</html>

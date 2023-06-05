@@ -64,8 +64,8 @@ export default {
         return {
             bookList: [],
             editUI: false,
-            addDetail: { title: "", user: '', date: '', id: '' },
-            editDetail: { title: "", user: '', date: '', id: '' },
+            addDetail: {},
+            editDetail: { },
             newsList: null,
             idNow: 3
         }
