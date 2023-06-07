@@ -31,6 +31,11 @@ a {
 }
 
 .el-menu {
+    z-index: 99999;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
     background: rgba(255, 255, 255, 0.2);
     align-items: center;
     justify-content: center;

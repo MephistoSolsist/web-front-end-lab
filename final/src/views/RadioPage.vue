@@ -150,7 +150,7 @@ audio {
     border: none;
     width: 100%;
     outline: 0;
-    padding-left: 2px;
+    padding-left: 5px;
     font-size: 15px;
 }
 
@@ -173,9 +173,9 @@ audio {
 #search {
     height: 20px;
     border: #134991 solid;
-    padding: 1px 2px;
+    padding: 1px 5px;
     display: flex;
-    width: 250px;
+    width: calc(100% - 200px);
     align-items: center;
     border-radius: 5px;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
