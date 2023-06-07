@@ -1,67 +1,100 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, getCurrentInstance } from 'vue'
 import AddMusic from '@/components/AddMusic.vue'
-
-const musicList = [
-    { id: 1, title: "Blinding Lights", singer: "The Weekend", uploader: "Solsist" },
-    { id: 2, title: "突然的自我", singer: "伍佰", uploader: "Solsist" },
-    { id: 3, title: "猫", singer: "DISH//", uploader: "Solsist" },
-    { id: 4, title: "vivi", singer: "米津玄師", uploader: "Solsist" },
-    { id: 5, title: "東京フラッシュ", singer: "Vaundy", uploader: "Solsist" },
-    { id: 6, title: "Blinding Lights", singer: "The Weekend", uploader: "Solsist" },
-    { id: 7, title: "Blinding Lights", singer: "The Weekend", uploader: "Solsist" },
-    { id: 8, title: "Blinding Lights", singer: "The Weekend", uploader: "Solsist" },
-]
+import { useMusicStore } from '@/stores/music'
+const { proxy } = getCurrentInstance()
+const store = useMusicStore()
+var musicList = ref({ ...store.musicList })
 
 var isShowAdd = ref(false)
-const addUIToggle = () => isShowAdd.value = !isShowAdd.value
+const editUIToggle = () => isShowAdd.value = !isShowAdd.value
+const editMusic = () => {
+    store.editMusicDetail.uploader = "Solsist"
+    store.editMusic()
+    editUIToggle()
+    update()
+}
+const add = () => {
+    store.editMusicDetail = { isNew: true }
+    editUIToggle()
+}
+const edit = (id) => {
+    store.musicList.forEach((item) => {
+        if (item.id == id) {
+            store.editMusicDetail = { ...item, isNew: false }
+        }
+    })
+    editUIToggle()
+}
+const del = (id) => {
+    store.delMusic(id)
+    update()
+}
+
+
+const find = () => {
+    const keyword = proxy.$refs.search.value
+    musicList.value = []
+    store.musicList.forEach((item) => {
+        if (item.title.indexOf(keyword) != -1 || item.singer.indexOf(keyword) != -1 || item.uploader.indexOf(keyword) != -1) {
+            musicList.value.push(item)
+        }
+    })
+}
+
+const update = () =>{
+    musicList.value = {...store.musicList} 
+}
 
 </script>
 <template>
-    <AddMusic v-show="isShowAdd"></AddMusic>
-    <div id="bar">
-        <div id="search">
-            <svg aria-hidden="true" height="16" width="16">
-                <path
-                    d="M11.87 10.835c.018.015.035.03.051.047l3.864 3.863a.735.735 0 1 1-1.04 1.04l-3.863-3.864a.744.744 0 0 1-.047-.051 6.667 6.667 0 1 1 1.035-1.035zM6.667 12a5.333 5.333 0 1 0 0-10.667 5.333 5.333 0 0 0 0 10.667z">
-                </path>
-            </svg>
-            <input type="text" placeholder="输入标题/歌手/分享者进行搜索" />
+    <div id="container">
+        <AddMusic @addMusic="editMusic" @cancel="editUIToggle" v-show="isShowAdd"></AddMusic>
+        <div id="bar">
+            <div id="search">
+                <svg aria-hidden="true" height="16" width="16">
+                    <path
+                        d="M11.87 10.835c.018.015.035.03.051.047l3.864 3.863a.735.735 0 1 1-1.04 1.04l-3.863-3.864a.744.744 0 0 1-.047-.051 6.667 6.667 0 1 1 1.035-1.035zM6.667 12a5.333 5.333 0 1 0 0-10.667 5.333 5.333 0 0 0 0 10.667z">
+                    </path>
+                </svg>
+                <input @input="find()" ref="search" type="text" placeholder="输入标题/歌手/分享者进行搜索" />
+            </div>
+            <button @click="add">
+                <svg width="16px" height="16px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"
+                    data-v-ea893728="">
+                    <path fill="currentColor"
+                        d="M160 832h704a32 32 0 1 1 0 64H160a32 32 0 1 1 0-64zm384-578.304V704h-64V247.296L237.248 490.048 192 444.8 508.8 128l316.8 316.8-45.312 45.248L544 253.696z">
+                    </path>
+                </svg>
+                <a>上传歌曲</a>
+            </button>
         </div>
-        <button @click="addUIToggle">
-            <svg width="16px" height="16px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-v-ea893728="">
-                <path fill="currentColor"
-                    d="M160 832h704a32 32 0 1 1 0 64H160a32 32 0 1 1 0-64zm384-578.304V704h-64V247.296L237.248 490.048 192 444.8 508.8 128l316.8 316.8-45.312 45.248L544 253.696z">
-                </path>
-            </svg>
-            <a>上传歌曲</a>
-        </button>
+        <div id="musicList">
+            <table>
+                <tr>
+                    <th width="10px">序号</th>
+                    <th width="200px">标题</th>
+                    <th width="50px">歌手</th>
+                    <th width="50px">分享者</th>
+                    <th width="50px">操作</th>
+                </tr>
+                <tr v-for="item in musicList" :key="item" id="musicItem">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.singer }}</td>
+                    <td>{{ item.uploader }}</td>
+                    <td id="operation">
+                        <a>播放 </a>
+                        <a @click="edit(item.id)">编辑 </a>
+                        <a @click="del(item.id)">删除</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <audio controls="controls">
+            <source src="../assets/music/BlindingLights.mp3" type="audio/mp3">
+        </audio>
     </div>
-    <div id="musicList">
-        <table>
-            <tr>
-                <th width="10px">序号</th>
-                <th width="200px">标题</th>
-                <th width="50px">歌手</th>
-                <th width="50px">分享者</th>
-                <th width="50px">操作</th>
-            </tr>
-            <tr v-for="item in musicList" :key="item" id="musicItem">
-                <td>{{ item.id }}</td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.singer }}</td>
-                <td>{{ item.uploader }}</td>
-                <td>
-                    <a>播放 </a>
-                    <a>编辑 </a>
-                    <a>删除</a>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <audio controls="controls">
-        <source src="../assets/music/BlindingLights.mp3" type="audio/mp3">
-    </audio>
 </template>
 
 <style>
@@ -69,6 +102,11 @@ const addUIToggle = () => isShowAdd.value = !isShowAdd.value
     width: 80%;
     margin: auto;
 }
+
+#musicList a:hover {
+    cursor: pointer;
+}
+
 
 #bar {
     display: flex;
@@ -81,6 +119,8 @@ table {
     margin: auto;
     width: 100%;
     border-collapse: collapse;
+    color: #134991;
+    line-height: 50px;
 }
 
 tr {
@@ -140,5 +180,4 @@ audio {
     border-radius: 5px;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
-
 </style>
