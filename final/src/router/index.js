@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
     {
@@ -8,7 +8,10 @@ const routes = [
             { path: "/", component: () => import("@/views/HomePage.vue") },
             { path: "/home", component: () => import("@/views/HomePage.vue") },
             { path: "/bbs", component: () => import("@/views/ForumPage.vue") },
-            { path: "/radio", component: () => import("@/views/RadioPage.vue") },
+            {
+                path: "/radio",
+                component: () => import("@/views/RadioPage.vue"),
+            },
             {
                 path: "/package",
                 component: () => import("@/views/PackagePage.vue"),
@@ -18,7 +21,7 @@ const routes = [
     },
 ];
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes,
 });
 

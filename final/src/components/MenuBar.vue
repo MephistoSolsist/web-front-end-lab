@@ -31,21 +31,17 @@ a {
 }
 
 .el-menu {
-    z-index: 99999;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
     background: rgba(255, 255, 255, 0.2);
     align-items: center;
     justify-content: center;
     height: 48px;
-    backdrop-filter: blur(1rem)
+    backdrop-filter: blur(1rem);
 }
 
 .el-menu-item {
     width: 100px;
 }
+
 
 #logo {
     width: 85px;
